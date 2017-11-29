@@ -1,12 +1,13 @@
 #ifndef _MYDTL_MYSQL_H_
 #define _MYDTL_MYSQL_H_
 
-#include <mysql.h>
-#include <errmsg.h>
+#include <mysql/mysql.h>
+#include <mysql/errmsg.h>
 #include <time.h>
 #include <memory.h>
 #include <assert.h>
 #include <stdint.h>
+#include <iostream>
 #include <string>
 #include <vector>
 #include <array>
@@ -558,8 +559,8 @@ public:
 		m_mysql=src.m_mysql;
 		src.m_mysql=NULL;
 	}
-	database& operator==(const database&) = delete;
-	database& operator==(database&& src)
+	database& operator=(const database&) = delete;
+	database& operator=(database&& src)
 	{
 		if(this!=&src)
 		{
@@ -567,6 +568,7 @@ public:
 			m_mysql=src.m_mysql;
 			src.m_mysql=NULL;
 		}
+		return *this;
 	}
 
 	MYSQL* handle() { return m_mysql; }

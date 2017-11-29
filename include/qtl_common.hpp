@@ -79,6 +79,7 @@ struct bind_string_helper
 	typedef StringT string_type;
 	typedef typename string_type::value_type char_type;
 	bind_string_helper(string_type&& value) : m_value(std::forward<string_type>(value)) { }
+	bind_string_helper(const bind_string_helper& rhs) : m_value(std::forward<string_type>(rhs.m_value)) { };
 	void clear() { m_value.clear(); }
 	char_type* alloc(size_t n) { m_value.resize(n); return (char_type*)m_value.data(); }
 	void truncate(size_t n) { m_value.resize(n); }
@@ -103,7 +104,7 @@ inline void bind_param(Command& command, size_t index, const T& param)
 }
 
 template<typename Command, typename T>
-inline void bind_field(Command& command, size_t index, T& value)
+inline void bind_field(Command& command, size_t index, const T& value)
 {
 	bind_field(command, index, std::forward<T>(value));
 }
